@@ -1,0 +1,63 @@
+{
+  "spec": "mnist/verification-record/1",
+  "lexlean": {
+    "repository": "https://github.com/UOR-Foundation/LexLean",
+    "commit": "0b0ebd940fc415c135885300104c69a24984b03b",
+    "language": "1.2",
+    "lean_toolchain": "leanprover/lean4:v4.32.1"
+  },
+  "source": "7fa94f176f0aff004f64687e903a315879eb00e44fc4dedeec571fa291ddbc96",
+  "semantic": "3979314ae53c6a581ef1abbf49a32c714cc71c2f94ff062f29d55710d3d68ebe",
+  "attestation": "027e928a4266d62286d1b4dcc1187337c5826e0d628229842aa39b648a0143f0",
+  "build_id": "6e13d615b0159d533e1ec5f5c2a07d5d1820cb71e4e7d98ce4a2823027244370",
+  "root": "Mnist.Network.classify",
+  "targets": [
+    "rust-std"
+  ],
+  "declared_effects": [
+    "allocation",
+    "overflow"
+  ],
+  "certificates": {
+    "source_to_calculus": "LexLeanPreserve.C3979314ae53c6a581ef1abbf49a32c71.R0.root",
+    "calculus_to_rust": "LexLeanPreserve.C3979314ae53c6a581ef1abbf49a32c71.R0.RustStd.root",
+    "composed": "LexLeanPreserve.C3979314ae53c6a581ef1abbf49a32c71.R0.Compose.RustStd.root"
+  },
+  "crate": {
+    "target": "rust-std",
+    "sha256": "ebacfe87d97e32d1ce19e85a2f52e2641a018bcc16faf05ea259de76ae7cb73b",
+    "byte_length": 168238,
+    "entry": {
+      "function": 0,
+      "symbol": "f0"
+    }
+  },
+  "definitions": 82,
+  "kernel_theorems": [
+    "argmax_image0",
+    "conv1_channel0_image0",
+    "flatten_order_image0",
+    "fused_row_image0",
+    "output_code_0_image0",
+    "output_code_1_image0",
+    "output_code_2_image0",
+    "output_code_3_image0",
+    "output_code_4_image0",
+    "output_code_5_image0",
+    "output_code_6_image0",
+    "output_code_7_image0",
+    "output_code_8_image0",
+    "output_code_9_image0",
+    "pool2_plane_image0",
+    "pool3_plane_image0",
+    "requant_row_image0"
+  ],
+  "library_axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "root_observed_axioms": [
+    "propext"
+  ]
+}
