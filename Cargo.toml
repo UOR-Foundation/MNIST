@@ -9,10 +9,10 @@ edition = "2021"
 rust-version = "1.89"
 license = "MIT OR Apache-2.0"
 # Instantiated repositories set their own URLs here.
-repository = "https://github.com/UOR-Foundation/template"
-homepage = "https://github.com/UOR-Foundation/template"
+repository = "https://github.com/UOR-Foundation/MNIST"
+homepage = "https://github.com/UOR-Foundation/MNIST"
 authors = ["UOR Foundation"]
-keywords = []
+keywords = ["lexlean", "mnist", "quantized-inference", "verified"]
 categories = []
 
 [workspace.dependencies]
