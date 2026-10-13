@@ -14,10 +14,23 @@
 # in the ID, lowercased with underscores (R3, CM-02). There is no "pending"
 # state: a capability that is not built does not get a row, and every row in this
 # file is built.
-#
-# The register is empty. This repository has no claims yet; adding one starts
-# with a row here, in the order `AGENTS.md` sets out.
 
 spec = "template/1"
 
-id = []
+[[id]]
+id = "MN-01"
+level = "build"
+suite = "model"
+statement = "The MNIST model graph under src/Mnist is accepted by the locked LexLean compiler: the lock is current, every module is canonical, and every module links."
+
+[[id]]
+id = "MN-02"
+level = "build"
+suite = "model"
+statement = "The root Mnist.Network.classify is production-eligible for the rust-std target and admits exactly the allocation and overflow effects, so its runtime closure contains no recursion."
+
+[[id]]
+id = "MN-03"
+level = "build"
+suite = "model"
+statement = "The committed verification record names the source and semantic identities of the current model graph, so the attestation, certificates and crate digest it carries belong to the committed source."

@@ -18,14 +18,28 @@ The three honesty levels (R2):
 `cargo xtask audit-limits` fails if any code path returns an error the
 model does not sanction.
 
+## model
+
+| ID | Level | Statement |
+| --- | --- | --- |
+| `MN-01` | `build` | The MNIST model graph under src/Mnist is accepted by the locked LexLean compiler: the lock is current, every module is canonical, and every module links. |
+| `MN-02` | `build` | The root Mnist.Network.classify is production-eligible for the rust-std target and admits exactly the allocation and overflow effects, so its runtime closure contains no recursion. |
+| `MN-03` | `build` | The committed verification record names the source and semantic identities of the current model graph, so the attestation, certificates and crate digest it carries belong to the committed source. |
+
 ## Cited authorities
 
 Never re-derived, vendored, or gated on.
 
 | Authority | Citation | Evidence here |
 | --- | --- | --- |
+| `ONNX-MNIST-12-INT8` | github.com/onnx/models, validated/vision/classification/mnist/model/mnist-12-int8.onnx (MIT); CNTK-trained MNIST CNN quantized with Intel Neural Compressor; README states 1.1% top-1 error | `MN-01`, `MN-02` |
+| `ONNX-MNIST-12-FP32` | github.com/onnx/models, validated/vision/classification/mnist/model/mnist-12.onnx (MIT); the float32 model the int8 model was quantized from | -- |
+| `MNIST-T10K` | t10k-images-idx3-ubyte.gz and t10k-labels-idx1-ubyte.gz, LeCun, Cortes and Burges; IDX files from the github.com/fgnt/mnist mirror | -- |
 
 ## Claims that are not conformance IDs
 
 | ID | Level | Claim |
 | --- | --- | --- |
+| `AUTH-01` | `some-true` | MNIST-12 reaches 1.1% top-1 error on the MNIST test set, as the ONNX Model Zoo README reports. |
+| `OPEN-01` | `open` | Measured over the 10,000-image MNIST test set, the certified rust-std rendering of classify chose the same class as onnxruntime 1.29.0 running mnist-12-int8.onnx on every image, and the same class as onnxruntime running mnist-12.onnx on 99.65% of images; see docs/evidence/head-to-head.md. |
+| `OPEN-02` | `open` | Measured on one 2-vCPU container, the certified rust-std rendering of classify took 28.7 ms per image with the same work count (39,944 steps) on every image, against 66 us for onnxruntime on the same int8 graph; see docs/evidence/head-to-head.md. |
