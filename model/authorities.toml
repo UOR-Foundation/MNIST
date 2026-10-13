@@ -8,10 +8,29 @@
 # `realized_by` lists the conformance IDs that are *evidence* this repository
 # realizes the cited fact. Evidence is not proof, and the meta-gate fails the
 # build if any document blurs the two registers.
-#
-# Empty. The first authority this repository cites goes here, before any claim
-# is allowed to say `some-true`.
 
 spec = "template/1"
 
-authority = []
+[[authority]]
+id = "ONNX-MNIST-12-INT8"
+name = "ONNX Model Zoo, MNIST-12-int8"
+citation = "github.com/onnx/models, validated/vision/classification/mnist/model/mnist-12-int8.onnx (MIT); CNTK-trained MNIST CNN quantized with Intel Neural Compressor; README states 1.1% top-1 error"
+checksum = "sha256:5eac0752eecf4991a5e4157cf31a186f2c61090494019e87979ac17df1dae253"
+statement = "The int8 weights, biases, scales and zero points under src/Mnist are this model's initializers; the graph is QuantizeLinear, QLinearConv 5x5 SAME 1->8 + bias, MaxPool 2x2, QLinearConv 5x5 SAME 8->16 + bias, DequantizeLinear, MaxPool 3x3, Reshape, QuantizeLinear, QLinearMatMul 256x10, QLinearAdd, DequantizeLinear."
+realized_by = ["MN-01", "MN-02"]
+
+[[authority]]
+id = "ONNX-MNIST-12-FP32"
+name = "ONNX Model Zoo, MNIST-12"
+citation = "github.com/onnx/models, validated/vision/classification/mnist/model/mnist-12.onnx (MIT); the float32 model the int8 model was quantized from"
+checksum = "sha256:5c688690f8bacf667d4c2074af5ad0646ca328d7ab03eccf944a65b320171bdd"
+statement = "The float32 reference whose predictions the measured agreement in docs/evidence/head-to-head.md is reported against."
+realized_by = []
+
+[[authority]]
+id = "MNIST-T10K"
+name = "MNIST test set"
+citation = "t10k-images-idx3-ubyte.gz and t10k-labels-idx1-ubyte.gz, LeCun, Cortes and Burges; IDX files from the github.com/fgnt/mnist mirror"
+checksum = "sha256:8d422c7b0a1c1c79245a5bcf07fe86e33eeafee792b84584aec276f5a2dbc4e6 (images), sha256:f7ae60f92e00ec6debd23a6088c31dbd2371eca3ffa0defaefb259924204aec6 (labels)"
+statement = "The 10,000 labelled 28x28 images the measurements in docs/evidence/head-to-head.md were taken over."
+realized_by = []
