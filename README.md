@@ -45,7 +45,10 @@ onnxruntime over the full MNIST test set. Those measurements are `open` claims
 in `model/ledger.toml` and are reported in `docs/evidence/head-to-head.md`:
 the same class as onnxruntime's int8 run on all 10,000 images, 98.92%
 accuracy, and 28.7 ms per image against 66 µs, with an identical work count on
-every image.
+every image. `docs/evidence/rendering.md` shows that the time is the `rust-std`
+rendering, not the graph: five mechanical rewrites of the crate text alone
+bring the same graph to 4.8 ms with identical predictions; they are specified
+as [LexLean #81](https://github.com/UOR-Foundation/LexLean/issues/81).
 
 ## Layout
 

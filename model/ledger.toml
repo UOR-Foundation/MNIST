@@ -29,3 +29,9 @@ id = "OPEN-02"
 level = "open"
 statement = "Measured on one 2-vCPU container, the certified rust-std rendering of classify took 28.7 ms per image with the same work count (39,944 steps) on every image, against 66 us for onnxruntime on the same int8 graph; see docs/evidence/head-to-head.md."
 sample_size = 10000
+
+[[claim]]
+id = "OPEN-03"
+level = "open"
+statement = "Measured on the certified crate with five mechanical rewrites of its rendering only (field projection, buffer lists, borrowed projections, fold as a loop, initial capacity), the same graph ran at 4.8 ms per image with identical predictions and the same 39,944 steps; the rewrites are specified as LexLean issue #81 and reported in docs/evidence/rendering.md."
+sample_size = 2000
