@@ -3,8 +3,20 @@
 default: vv
 
 # The whole gate.
-vv: template-check fmt-check model lint test features bdd deny
+vv: model-verify template-check fmt-check model lint test features bdd deny
     @echo "vv: the acceptance gate passed"
+
+# The model graph under src/Mnist is the single source (R1). The locked LexLean
+# compiler must accept it, and `lexlean verify` must replay every kernel theorem,
+# audit every axiom policy and certify the production root before anything else
+# in the gate reads its outputs. Verification writes under `.lexlean/`, which is
+# not committed; the committed record of a verification is `docs/evidence/`.
+model-verify:
+    lexlean lock --check
+    lexlean fmt --check --all
+    lexlean check --all
+    lexlean build
+    lexlean verify
 
 # R1, R4, R5 --- the repository gates, each falsifiable.
 model:
