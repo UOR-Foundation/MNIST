@@ -19,15 +19,9 @@ statement = "MNIST-12 reaches 1.1% top-1 error on the MNIST test set, as the ONN
 authority = "ONNX-MNIST-12-INT8"
 
 [[claim]]
-id = "OPEN-01"
-level = "open"
-statement = "Measured over the 10,000-image MNIST test set, the certified rust-std rendering of classify chose the same class as onnxruntime 1.29.0 running mnist-12-int8.onnx on every image, and the same class as onnxruntime running mnist-12.onnx on 99.65% of images; see docs/evidence/head-to-head.md."
-sample_size = 10000
-
-[[claim]]
 id = "OPEN-02"
 level = "open"
-statement = "Measured on one 2-vCPU container, the certified rust-std rendering of classify took 7.7 ms per image with the same work count (39,944 steps) on every image, against 66 us for onnxruntime on the same int8 graph; before LexLean #87 the same graph took 28.7 ms; see docs/evidence/head-to-head.md."
+statement = "Measured on one 2-vCPU container, the certified package of Mnist.Model.classify took 8.7 ms per image over the 10,000 test images (bytes in, checked digit out), against 66 us for onnxruntime on the same int8 graph; the list-graph root took 28.7 ms before LexLean #87 and 7.7 ms after it; see docs/evidence/head-to-head.md."
 sample_size = 10000
 
 [[claim]]

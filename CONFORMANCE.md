@@ -44,5 +44,5 @@ Never re-derived, vendored, or gated on.
 | ID | Level | Claim |
 | --- | --- | --- |
 | `AUTH-01` | `some-true` | MNIST-12 reaches 1.1% top-1 error on the MNIST test set, as the ONNX Model Zoo README reports. |
-| `OPEN-02` | `open` | Measured on one 2-vCPU container, the certified package of Mnist.Model.classify took TIME_MS ms per image over the 10,000 test images (bytes in, checked digit out), against 66 us for onnxruntime on the same int8 graph; the list-graph root took 28.7 ms before LexLean #87 and 7.7 ms after it; see docs/evidence/head-to-head.md. |
+| `OPEN-02` | `open` | Measured on one 2-vCPU container, the certified package of Mnist.Model.classify took 8.7 ms per image over the 10,000 test images (bytes in, checked digit out), against 66 us for onnxruntime on the same int8 graph; the list-graph root took 28.7 ms before LexLean #87 and 7.7 ms after it; see docs/evidence/head-to-head.md. |
 | `OPEN-03` | `open` | Measured on the certified crate with five mechanical rewrites of its rendering only (field projection, buffer lists, borrowed projections, fold as a loop, initial capacity), the same graph ran at 4.8 ms per image with identical predictions and the same 39,944 steps; the first three landed in LexLean as #87 (closing #81) and give the 7.7 ms of OPEN-02, the rest are LexLean #84; see docs/evidence/rendering.md. |
