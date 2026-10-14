@@ -22,9 +22,12 @@ model does not sanction.
 
 | ID | Level | Statement |
 | --- | --- | --- |
-| `MN-01` | `build` | The MNIST model graph under src/Mnist is accepted by the locked LexLean compiler: the lock is current, every module is canonical, and every module links. |
-| `MN-02` | `build` | The root Mnist.Network.classify is production-eligible for the rust-std target and admits exactly the allocation and overflow effects, so its runtime closure contains no recursion. |
-| `MN-03` | `build` | The committed verification record names the source and semantic identities of the current model graph, so the attestation, certificates and crate digest it carries belong to the committed source. |
+| `MN-01` | `build` | The MNIST model under src/Mnist is accepted by the locked LexLean compiler: the lock is current, every module is canonical, and all eleven modules link, artifacts, contract, realization, evidence and model included. |
+| `MN-02` | `build` | The root Mnist.Model.classify, the model applied under its precondition check, is production-eligible for the rust-std target and admits exactly the allocation and overflow effects, so its runtime closure contains no recursion. |
+| `MN-03` | `build` | The committed bundle's result and the committed production request name the source and semantic identities of the current model, so the attestation, certificates and package the bundle carries belong to the committed source. |
+| `MN-04` | `build` | The committed bundle replays offline through lexlean production verify-artifact with status bindings-verified, exporting Mnist.Model.classify with certification kernel-checked: certificates A, B and E of the root were compiled, replayed and axiom-audited by the pinned Lean. |
+| `MN-05` | `build` | The committed package, built from the bundle and run over the 10,000 MNIST test images, returns the class onnxruntime 1.29.0 returns for mnist-12-int8.onnx on every image, misclassifies exactly 108 of them, and refuses an input that is not 784 bytes. |
+| `MN-06` | `build` | Every parameter artifact under artifacts/ is configured in lexlean.toml under its SHA-256 and recorded in model/authorities.toml, so the weights the model decodes are the bytes the authority row names. |
 
 ## Cited authorities
 
@@ -32,15 +35,14 @@ Never re-derived, vendored, or gated on.
 
 | Authority | Citation | Evidence here |
 | --- | --- | --- |
-| `ONNX-MNIST-12-INT8` | github.com/onnx/models, validated/vision/classification/mnist/model/mnist-12-int8.onnx (MIT); CNTK-trained MNIST CNN quantized with Intel Neural Compressor; README states 1.1% top-1 error | `MN-01`, `MN-02` |
+| `ONNX-MNIST-12-INT8` | github.com/onnx/models, validated/vision/classification/mnist/model/mnist-12-int8.onnx (MIT); CNTK-trained MNIST CNN quantized with Intel Neural Compressor; README states 1.1% top-1 error | `MN-01`, `MN-02`, `MN-05`, `MN-06` |
 | `ONNX-MNIST-12-FP32` | github.com/onnx/models, validated/vision/classification/mnist/model/mnist-12.onnx (MIT); the float32 model the int8 model was quantized from | -- |
-| `MNIST-T10K` | t10k-images-idx3-ubyte.gz and t10k-labels-idx1-ubyte.gz, LeCun, Cortes and Burges; IDX files from the github.com/fgnt/mnist mirror | -- |
+| `MNIST-T10K` | t10k-images-idx3-ubyte.gz and t10k-labels-idx1-ubyte.gz, LeCun, Cortes and Burges; IDX files from the github.com/fgnt/mnist mirror | `MN-05` |
 
 ## Claims that are not conformance IDs
 
 | ID | Level | Claim |
 | --- | --- | --- |
 | `AUTH-01` | `some-true` | MNIST-12 reaches 1.1% top-1 error on the MNIST test set, as the ONNX Model Zoo README reports. |
-| `OPEN-01` | `open` | Measured over the 10,000-image MNIST test set, the certified rust-std rendering of classify chose the same class as onnxruntime 1.29.0 running mnist-12-int8.onnx on every image, and the same class as onnxruntime running mnist-12.onnx on 99.65% of images; see docs/evidence/head-to-head.md. |
-| `OPEN-02` | `open` | Measured on one 2-vCPU container, the certified rust-std rendering of classify took 7.7 ms per image with the same work count (39,944 steps) on every image, against 66 us for onnxruntime on the same int8 graph; before LexLean #87 the same graph took 28.7 ms; see docs/evidence/head-to-head.md. |
+| `OPEN-02` | `open` | Measured on one 2-vCPU container, the certified package of Mnist.Model.classify took TIME_MS ms per image over the 10,000 test images (bytes in, checked digit out), against 66 us for onnxruntime on the same int8 graph; the list-graph root took 28.7 ms before LexLean #87 and 7.7 ms after it; see docs/evidence/head-to-head.md. |
 | `OPEN-03` | `open` | Measured on the certified crate with five mechanical rewrites of its rendering only (field projection, buffer lists, borrowed projections, fold as a loop, initial capacity), the same graph ran at 4.8 ms per image with identical predictions and the same 39,944 steps; the first three landed in LexLean as #87 (closing #81) and give the 7.7 ms of OPEN-02, the rest are LexLean #84; see docs/evidence/rendering.md. |

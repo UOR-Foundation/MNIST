@@ -21,16 +21,34 @@ spec = "template/1"
 id = "MN-01"
 level = "build"
 suite = "model"
-statement = "The MNIST model graph under src/Mnist is accepted by the locked LexLean compiler: the lock is current, every module is canonical, and every module links."
+statement = "The MNIST model under src/Mnist is accepted by the locked LexLean compiler: the lock is current, every module is canonical, and all eleven modules link, artifacts, contract, realization, evidence and model included."
 
 [[id]]
 id = "MN-02"
 level = "build"
 suite = "model"
-statement = "The root Mnist.Network.classify is production-eligible for the rust-std target and admits exactly the allocation and overflow effects, so its runtime closure contains no recursion."
+statement = "The root Mnist.Model.classify, the model applied under its precondition check, is production-eligible for the rust-std target and admits exactly the allocation and overflow effects, so its runtime closure contains no recursion."
 
 [[id]]
 id = "MN-03"
 level = "build"
 suite = "model"
-statement = "The committed verification record names the source and semantic identities of the current model graph, so the attestation, certificates and crate digest it carries belong to the committed source."
+statement = "The committed bundle's result and the committed production request name the source and semantic identities of the current model, so the attestation, certificates and package the bundle carries belong to the committed source."
+
+[[id]]
+id = "MN-04"
+level = "build"
+suite = "model"
+statement = "The committed bundle replays offline through lexlean production verify-artifact with status bindings-verified, exporting Mnist.Model.classify with certification kernel-checked: certificates A, B and E of the root were compiled, replayed and axiom-audited by the pinned Lean."
+
+[[id]]
+id = "MN-05"
+level = "build"
+suite = "model"
+statement = "The committed package, built from the bundle and run over the 10,000 MNIST test images, returns the class onnxruntime 1.29.0 returns for mnist-12-int8.onnx on every image, misclassifies exactly 108 of them, and refuses an input that is not 784 bytes."
+
+[[id]]
+id = "MN-06"
+level = "build"
+suite = "model"
+statement = "Every parameter artifact under artifacts/ is configured in lexlean.toml under its SHA-256 and recorded in model/authorities.toml, so the weights the model decodes are the bytes the authority row names."
