@@ -1,4 +1,4 @@
-# Rendering: where the 28.7 ms goes, and the ceiling of the current calculus
+# Rendering: where the 28.7 ms went, and the ceiling of the current calculus
 
 A measurement (R2) behind `OPEN-03`. It asks one question: of the certified
 crate's time, how much is the graph and how much is the way `rust-std` renders
@@ -54,6 +54,11 @@ and in allocation. A plain scalar loop over contiguous arrays does the same
 The cost of the certified crate is the rendering, by a factor of about six,
 and each of the five rules is a change on the machine side of certificate B:
 the calculus, the semantic identity, the eligibility verdict and the counted
-work are the same before and after. That is the content of LexLean #81. The
-graph in `src/Mnist/` is the one that will be re-rendered when it lands; this
-repository changes nothing to receive it.
+work are the same before and after. That was the content of LexLean #81. The
+first three rules landed as LexLean #87 (in the form the closed AST admits:
+last-use moves, component moves, contiguous lists with in-place extension
+when no other list holds the buffer); the graph in `src/Mnist/` was
+re-verified unchanged against that compiler and its certified crate runs at
+7.7 ms per image over 10,000 images (`head-to-head.md`). The remaining two
+rules, and the region rule that reaches the 0.74 ms floor of this program's
+arithmetic, are LexLean #84.

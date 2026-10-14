@@ -44,11 +44,13 @@ kernel child limit); it is measured, with the certified rendering, against
 onnxruntime over the full MNIST test set. Those measurements are `open` claims
 in `model/ledger.toml` and are reported in `docs/evidence/head-to-head.md`:
 the same class as onnxruntime's int8 run on all 10,000 images, 98.92%
-accuracy, and 28.7 ms per image against 66 µs, with an identical work count on
-every image. `docs/evidence/rendering.md` shows that the time is the `rust-std`
-rendering, not the graph: five mechanical rewrites of the crate text alone
-bring the same graph to 4.8 ms with identical predictions; they are specified
-as [LexLean #81](https://github.com/UOR-Foundation/LexLean/issues/81).
+accuracy, and 7.7 ms per image against 66 µs, with an identical work count on
+every image. The same graph took 28.7 ms under the LexLean of a day earlier:
+`docs/evidence/rendering.md` showed the time was the `rust-std` rendering, not
+the graph, and that measurement became
+[LexLean #87](https://github.com/UOR-Foundation/LexLean/pull/87); what
+remains between 7.7 ms and the 0.74 ms floor of this arithmetic is
+[LexLean #84](https://github.com/UOR-Foundation/LexLean/issues/84).
 
 ## Layout
 

@@ -27,7 +27,7 @@ report these numbers and never assert them. Everything here was taken on one
 | --- | --- | --- | --- | --- | --- |
 | onnxruntime, mnist-12.onnx (fp32) | 98.90% | 110 | 99.65% | — | 61 µs |
 | onnxruntime, mnist-12-int8.onnx | 98.92% | 108 | — | 99.65% | 66 µs |
-| LexLean certified rust-std rendering | 98.92% | 108 | 100.00% | 99.65% | 28.7 ms |
+| LexLean certified rust-std rendering | 98.92% | 108 | 100.00% | 99.65% | 7.7 ms |
 
 The zoo README reports 1.1% top-1 error for this model; fp32 reproduces it
 exactly (110 errors). Of the 35 images where int8 and fp32 disagree, the int8
@@ -48,17 +48,21 @@ certificate.
 
 The rendering's work counter reads 39,944 steps on all 10,000 images: the
 calculus charges by the program's structure, not by the data. Wall time is
-28.7 ms per image over the full run. The first two thousand images, taken while
-a build was sharing the container, averaged 29.7 ms; every later thousand-image
-block fell within 27.9–28.8 ms. What varies is the machine, not the input. The
-cost is the representation. A `rust-std` list is a persistent chain of
-reference-counted cells and a tuple field read clones the tuple, so the
-convolutions pay per cell and per state read; onnxruntime runs the same
-arithmetic on contiguous int8 arrays with SIMD kernels.
+7.7 ms per image over the full run with the crate LexLean `d284b165` certifies
+(sha256 `5c455a48…`). The same graph, certified by LexLean `0b0ebd94`, took
+28.7 ms; the difference is the `rust-std` rendering, not the graph: LexLean
+#87 made a last read a move, a last projection a move of the component, and a
+list a run of contiguous cells (`rendering.md` has the measurements that led
+to it). What remains is the representation: a fold state is passed by value
+and its list views are reference-counted, so the convolutions still pay per
+state read and per view; onnxruntime runs the same arithmetic on contiguous
+int8 arrays with SIMD kernels. The same arithmetic over contiguous `i64`
+arrays runs at 0.74 ms, which is the floor for this graph's rendering (LexLean
+#84).
 
 Two orderings of the same convolution were measured. The first assembled each
 5×5×8 output row from 40 correlation passes and 47 elementwise additions and
-took 51.9 ms per image. The committed graph walks the five rows and the running
-accumulator in one fold per output row and destructures its state tree once per
-level; that is the 28.7 ms. The predictions of the two are identical on all
-10,000 images.
+took 51.9 ms per image under the old rendering. The committed graph walks the
+five rows and the running accumulator in one fold per output row and
+destructures its state tree once per level; that is the 28.7 ms then and the
+7.7 ms now. The predictions of the two are identical on all 10,000 images.
