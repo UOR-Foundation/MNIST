@@ -46,6 +46,11 @@ jobs:
           set -euo pipefail
           curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain "$(cat lean-toolchain)"
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Report the installed toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "::notice::toolchains: $(ls "$HOME/.elan/toolchains" | tr '\n' ' '); lean: $(lean --version); lake: $(lake --version | head -n 1); bin: $(ls "$HOME/.elan/toolchains/$(ls "$HOME/.elan/toolchains" | head -n 1)/bin" | tr '\n' ' ')"
       - name: Cache the LexLean build
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
         with:
@@ -59,20 +64,41 @@ jobs:
             (cd .lexlean-src && cargo build --release -p lexlean --bin lexlean)
           fi
           echo "$PWD/.lexlean-src/target/release" >> "$GITHUB_PATH"
+      # Each command's output is kept and, on failure, repeated as a workflow
+      # error annotation, so the diagnostic is readable from the run's summary
+      # and through the API without the raw log.
       - name: Verify the model
         shell: bash
         run: |
           set -euo pipefail
-          lexlean lock --check
-          lexlean fmt --check --all
-          lexlean check --all
-          lexlean build --all
-          lexlean verify --all
+          gate() {
+            out="$RUNNER_TEMP/gate.out"
+            "$@" > "$out" 2>&1 && code=0 || code=$?
+            cat "$out"
+            if [ "$code" -ne 0 ]; then
+              echo "::error::$* exited $code: $(tr '\n' ' ' < "$out" | cut -c1-3000)"
+              exit "$code"
+            fi
+          }
+          gate lexlean lock --check
+          gate lexlean fmt --check --all
+          gate lexlean check --all
+          gate lexlean build --all
+          gate lexlean verify --all
       - name: Replay the committed bundle and run the conformance suite
         shell: bash
         run: |
           set -euo pipefail
-          lexlean production verify-artifact dist
-          cargo xtask check-model
-          cargo clippy --workspace --all-targets -- -D warnings
-          cargo test --workspace
+          gate() {
+            out="$RUNNER_TEMP/gate.out"
+            "$@" > "$out" 2>&1 && code=0 || code=$?
+            cat "$out"
+            if [ "$code" -ne 0 ]; then
+              echo "::error::$* exited $code: $(tr '\n' ' ' < "$out" | tail -c 3000)"
+              exit "$code"
+            fi
+          }
+          gate lexlean production verify-artifact dist
+          gate cargo xtask check-model
+          gate cargo clippy --workspace --all-targets -- -D warnings
+          gate cargo test --workspace
