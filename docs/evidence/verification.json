@@ -2,14 +2,14 @@
   "spec": "mnist/verification-record/1",
   "lexlean": {
     "repository": "https://github.com/UOR-Foundation/LexLean",
-    "commit": "0b0ebd940fc415c135885300104c69a24984b03b",
+    "commit": "d284b1652245b83ba0818fe9b266a76c25606aff",
     "language": "1.2",
     "lean_toolchain": "leanprover/lean4:v4.32.1"
   },
-  "source": "7fa94f176f0aff004f64687e903a315879eb00e44fc4dedeec571fa291ddbc96",
-  "semantic": "3979314ae53c6a581ef1abbf49a32c714cc71c2f94ff062f29d55710d3d68ebe",
-  "attestation": "027e928a4266d62286d1b4dcc1187337c5826e0d628229842aa39b648a0143f0",
-  "build_id": "6e13d615b0159d533e1ec5f5c2a07d5d1820cb71e4e7d98ce4a2823027244370",
+  "source": "091d42850f119c0ed6d49abfc622fa1b155610bc714eb57b7c9de3065d873ff2",
+  "semantic": "074b99f2fd16358e7f713a52648fb2613db5ba112a1efcfb18e5b4414ab3b4b1",
+  "attestation": "cf5a5dfd17ddc164b25e7c843be2d3fdba8d2cab4ba7b0f1f874e4adad9c0e0c",
+  "build_id": "0fbee6a579728316097f3caa0a3fbd3b1f10fb318bf6b95348751fa38f389ac7",
   "root": "Mnist.Network.classify",
   "targets": [
     "rust-std"
@@ -19,14 +19,14 @@
     "overflow"
   ],
   "certificates": {
-    "source_to_calculus": "LexLeanPreserve.C3979314ae53c6a581ef1abbf49a32c71.R0.root",
-    "calculus_to_rust": "LexLeanPreserve.C3979314ae53c6a581ef1abbf49a32c71.R0.RustStd.root",
-    "composed": "LexLeanPreserve.C3979314ae53c6a581ef1abbf49a32c71.R0.Compose.RustStd.root"
+    "source_to_calculus": "LexLeanPreserve.C074b99f2fd16358e7f713a52648fb261.R0.root",
+    "calculus_to_rust": "LexLeanPreserve.C074b99f2fd16358e7f713a52648fb261.R0.RustStd.root",
+    "composed": "LexLeanPreserve.C074b99f2fd16358e7f713a52648fb261.R0.Compose.RustStd.root"
   },
   "crate": {
     "target": "rust-std",
-    "sha256": "ebacfe87d97e32d1ce19e85a2f52e2641a018bcc16faf05ea259de76ae7cb73b",
-    "byte_length": 168238,
+    "sha256": "5c455a48df868c9d1b073f9600c58e9d17212bd85f2999ee0d905c203e83719b",
+    "byte_length": 167295,
     "entry": {
       "function": 0,
       "symbol": "f0"
