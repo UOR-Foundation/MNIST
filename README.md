@@ -104,7 +104,11 @@ alone (`lock --check`, `fmt --check --all`, `check --all`, `build --all`,
 `verify --all`); `just model-export` rebuilds `dist/`. The conformance tests
 `MN-01`..`MN-06` drive the `lexlean` command and the committed bundle from
 `cargo test`; `.github/workflows/model.yml` runs them with LexLean built at
-the pinned commit.
+the pinned commit. That commit is the head of LexLean #99, the
+certificate-budget fix the bundle's certificate B needs (the model root's
+242 KB crate exhausted the pinned Lean's default heartbeats twice, each time
+blaming a valid certificate); the pin moves to LexLean `main` when it
+merges.
 
 This repository is instantiated from
 [UOR-Foundation/template](https://github.com/UOR-Foundation/template) at

@@ -16,7 +16,7 @@ permissions:
 env:
   LEXLEAN_REPOSITORY: UOR-Foundation/LexLean
   # The LexLean commit this project's bundle was produced by; dist/result.json names it.
-  LEXLEAN_COMMIT: 0cd757f9be5bf50c352a95b816e1780e827a22dd
+  LEXLEAN_COMMIT: 54f2ec4145fb62604f14e7938b3d89673b32c731
 
 jobs:
   model:
