@@ -3,7 +3,7 @@ name = "mnist"
 language = "1.2"
 module_prefix = "Mnist"
 source_roots = ["src/Mnist"]
-entrypoints = ["src/Mnist/Scenarios.lex.tex"]
+entrypoints = ["src/Mnist/Model.lex.tex", "src/Mnist/Scenarios.lex.tex"]
 build_root = ".lexlean"
 lockfile = "lexlean.lock"
 lean_workspace = "."
@@ -12,6 +12,46 @@ lean_toolchain = "leanprover/lean4:v4.32.1"
 [[lexicon_source]]
 package = "lexlean.std.nat"
 kind = "builtin"
+
+[[artifact_source]]
+sha256 = "0055a1c8fdc64f8c9068950b9c97e1de1bad16bf3818c34f27e759086d52b7b2"
+path = "artifacts/fc-multipliers.bin"
+
+[[artifact_source]]
+sha256 = "0b07a7500c1b3001b4b5a6a0bf53db29fe9146c4847fcd3fbb15a579afc4d6c7"
+path = "artifacts/conv2-bias.bin"
+
+[[artifact_source]]
+sha256 = "0b5dec63bbafcaa49d71c79f8c75e0db8c92533046843dc4a012c3310ab667cc"
+path = "artifacts/output-quantization.bin"
+
+[[artifact_source]]
+sha256 = "3249821a5a0458481d0db3948dd6aa084c99aca5c4087cf0d11c358b8b051d64"
+path = "artifacts/conv1-weights.bin"
+
+[[artifact_source]]
+sha256 = "32c72f648d73d6244d67700f7f5a3881e8e47942fd5d457f00ecf9b214046219"
+path = "artifacts/conv2-weights.bin"
+
+[[artifact_source]]
+sha256 = "7dfb1376e9d61dd0a21fd2a79b89728b7dbc2eef29dd4d880192838fff7d1515"
+path = "artifacts/conv1-bias.bin"
+
+[[artifact_source]]
+sha256 = "a7258e5af6d971424ba3f206c3e89978d2bbe5406aba3ffe7c1c268a2f17e55a"
+path = "artifacts/fc-weights.bin"
+
+[[artifact_source]]
+sha256 = "b7892e6d88dac2ff698a59a3a8ed3d0684559101e676fc417b8cdf9372347516"
+path = "artifacts/conv2-multipliers.bin"
+
+[[artifact_source]]
+sha256 = "bd299085a5ca300a5f19273c977deee3c2e14e6bf2ada1b6bc9aaeb0803da9fa"
+path = "artifacts/fc-bias.bin"
+
+[[artifact_source]]
+sha256 = "ecffdd858a08b897dbaf8d17d94af86d24e86c44408db330bdb5a2ec693687f4"
+path = "artifacts/conv1-multipliers.bin"
 
 [limits]
 max_file_bytes = 33554432
@@ -24,4 +64,4 @@ max_scope_depth = 1024
 max_import_depth = 128
 max_diagnostics = 256
 max_child_output_bytes = 16777216
-child_timeout_ms = 300000
+child_timeout_ms = 900000
