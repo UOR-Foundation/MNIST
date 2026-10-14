@@ -1,0 +1,23 @@
+{
+  "expect": {
+    "lock_sha256": "ebce22bbd0204a5500b71668f8230cb2b19fdf1e859d9ef36f07ef8d27420790",
+    "semantic_id": "04d46d7fd36e23950c7b567c8b89ffaa9cea2319c5c97a33da102c069fcc2240",
+    "source_id": "58ad08957a1c1c9ab79e1870e54762129f6e07c62e561dac863035d13e58796d"
+  },
+  "roots": [
+    {
+      "package": {
+        "name": "mnist",
+        "version": "0.1.0"
+      },
+      "root": "Mnist.Model.classify",
+      "targets": [
+        {
+          "digest": "6c5c50c422f0ae0a36e2458bedc58b4d41bd93fe0b784edbe1bdea4ebeaa8c9d",
+          "id": "rust-std"
+        }
+      ]
+    }
+  ],
+  "spec": "lexlean/production-request/1"
+}

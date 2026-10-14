@@ -6,17 +6,27 @@ default: vv
 vv: model-verify template-check fmt-check model lint test features bdd deny
     @echo "vv: the acceptance gate passed"
 
-# The model graph under src/Mnist is the single source (R1). The locked LexLean
+# The model under src/Mnist is the single source (R1). The locked LexLean
 # compiler must accept it, and `lexlean verify` must replay every kernel theorem,
 # audit every axiom policy and certify the production root before anything else
 # in the gate reads its outputs. Verification writes under `.lexlean/`, which is
-# not committed; the committed record of a verification is `docs/evidence/`.
+# not committed; the committed record of a verification is the bundle `dist/`.
 model-verify:
     lexlean lock --check
     lexlean fmt --check --all
     lexlean check --all
-    lexlean build
-    lexlean verify
+    lexlean build --all
+    lexlean verify --all
+    lexlean production verify-artifact dist
+
+# The only path that rewrites `dist/`: `lexlean production build` verifies the
+# project and publishes the bundle production/request.json names, content-addressed
+# under `.lexlean/production/<result-id>/`, and that bundle is copied verbatim.
+# Never part of `vv`.
+model-export:
+    lexlean production build --request production/request.json
+    rm -rf dist
+    cp -r "$(ls -d .lexlean/production/*/ | head -n 1)" dist
 
 # R1, R4, R5 --- the repository gates, each falsifiable.
 model:
