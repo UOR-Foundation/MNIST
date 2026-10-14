@@ -3,6 +3,8 @@ import LexLeanPreserve.C04d46d7fd36e23950c7b567c8b89ffaa.R0.RustStd
 import LexLeanPreservation.Compose
 set_option autoImplicit false
 set_option maxRecDepth 100000
+set_option maxHeartbeats 0
+set_option synthInstance.maxHeartbeats 0
 set_option linter.unusedVariables false
 namespace LexLeanPreserve.C04d46d7fd36e23950c7b567c8b89ffaa.R0.Compose.RustStd
 
