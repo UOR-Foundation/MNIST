@@ -82,7 +82,7 @@ fn conformance_mn_01() {
     lexlean(&root, &["lock", "--check"]);
     lexlean(&root, &["fmt", "--check", "--all"]);
     let out = lexlean(&root, &["check", "--all"]);
-    assert!(out.starts_with("checked 11 modules"), "{out}");
+    assert!(out.starts_with("checked 12 modules"), "{out}");
 }
 
 #[test]
@@ -357,6 +357,71 @@ fn conformance_mn_06() {
     assert_eq!(
         artifacts, 10,
         "the ten parameter artifacts of mnist-12-int8"
+    );
+}
+
+/// The theorems of `Mnist.Facts` (MN-07): every fact the module states.
+const FACTS: &[&str] = &[
+    "multipliers_positive",
+    "fc_multipliers_distinct",
+    "conv1_accumulator_range",
+    "conv2_accumulator_range",
+    "conv1_stored_pairs",
+    "conv2_stored_pairs",
+    "conv1_extreme_pairing_safe",
+    "conv2_channel_0_extreme_pairing_safe",
+    "conv2_channel_1_extreme_pairing_safe",
+    "conv2_channel_2_extreme_pairing_safe",
+    "conv2_channel_3_extreme_pairing_safe",
+    "conv2_channel_4_extreme_pairing_safe",
+    "conv2_channel_5_extreme_pairing_safe",
+    "conv2_channel_6_extreme_pairing_safe",
+    "conv2_channel_7_extreme_pairing_safe",
+    "conv2_channel_8_extreme_pairing_safe",
+    "conv2_channel_9_extreme_pairing_safe",
+    "conv2_channel_10_extreme_pairing_safe",
+    "conv2_channel_11_extreme_pairing_safe",
+    "conv2_channel_12_extreme_pairing_safe",
+    "conv2_channel_13_extreme_pairing_safe",
+    "conv2_channel_14_extreme_pairing_safe",
+    "conv2_channel_15_extreme_pairing_safe",
+];
+
+#[test]
+fn conformance_mn_07() {
+    let root = root();
+    let out = lexlean(&root, &["verify", "src/Mnist/Facts.lex.tex"]);
+    let attestation_id: String = out
+        .split("attestation ")
+        .nth(1)
+        .unwrap_or_else(|| panic!("verify names its attestation: {out}"))
+        .chars()
+        .take_while(char::is_ascii_hexdigit)
+        .collect();
+    let attestation = std::fs::read_to_string(
+        root.join(".lexlean/verified")
+            .join(&attestation_id)
+            .join("attestation.json"),
+    )
+    .expect("the attestation verify wrote");
+    for fact in FACTS {
+        let name = format!("\"name\":\"Mnist.Facts.{fact}\"");
+        let at = attestation
+            .find(&name)
+            .unwrap_or_else(|| panic!("{fact} is in the attestation"));
+        // A declaration's record ends with its result: `"result":"ok"` when the kernel checked
+        // it and its observed axioms are exactly those its policy admits.
+        let result = field(&attestation[at..], &name, "result");
+        assert_eq!(
+            result, "ok",
+            "{fact} is checked by the kernel within its axiom policy"
+        );
+    }
+    let source = std::fs::read_to_string(root.join("src/Mnist/Facts.lex.tex")).expect("Facts");
+    assert_eq!(
+        source.matches("\"kind\":\"theorem\"").count(),
+        FACTS.len(),
+        "Mnist.Facts states exactly the facts MN-07 names"
     );
 }
 

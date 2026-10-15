@@ -4,10 +4,10 @@ Feature: model
   realization, the evidence, and the certified package bundle of the root Mnist.Model.classify.
 
   @MN-01 @build
-  Scenario: The MNIST model under src/Mnist is accepted by the locked LexLean compiler: the lock is current, every module is canonical, and all eleven modules link, artifacts, contract, realization, evidence and model included.
-    Given the committed lexlean.toml, lexlean.lock, the artifacts and the eleven modules under src/Mnist
+  Scenario: The MNIST model under src/Mnist is accepted by the locked LexLean compiler: the lock is current, every module is canonical, and all twelve modules link, artifacts, contract, realization, evidence, model and the model's facts included.
+    Given the committed lexlean.toml, lexlean.lock, the artifacts and the twelve modules under src/Mnist
     When the suite exercises MN-01
-    Then lexlean lock --check, lexlean fmt --check --all and lexlean check --all each exit successfully and eleven modules are checked
+    Then lexlean lock --check, lexlean fmt --check --all and lexlean check --all each exit successfully and twelve modules are checked
 
   @MN-02 @build
   Scenario: The root Mnist.Model.classify, the model applied under its precondition check, is production-eligible for the rust-std target and admits exactly the allocation and overflow effects; its source has no recursion, but the package renders each list fold as a function that calls itself (LexLean #105), so its stack depth is bounded by the list lengths its 784-byte precondition fixes.
@@ -38,3 +38,9 @@ Feature: model
     Given artifacts/, lexlean.toml and model/authorities.toml
     When the suite exercises MN-06
     Then each of the ten artifacts' SHA-256 appears as its artifact_source digest and in the authority record
+
+  @MN-07 @build
+  Scenario: Mnist.Facts proves by decide over the parameter artifacts that every requantization multiplier of conv1, conv2 and fc is positive; that the ten fc multipliers are distinct; that the least bias plus 255 times a channel's negative taps and the greatest bias plus 255 times its positive taps are -205015 and 210788 for conv1 and -1477999 and 878711 for conv2; that pairing each channel's taps in stored order, a zero added to an odd count, leaves 28 of 104 conv1 pairs and 113 of 1600 conv2 pairs able to saturate an int16 sum of u8-by-s8 products; and that pairing each channel's smallest tap with its largest leaves none.
+    Given the committed module src/Mnist/Facts.lex.tex and the parameter artifacts
+    When the suite exercises MN-07
+    Then lexlean verify of that module succeeds and its record lists every one of its theorems as checked by the kernel with the axioms its policy declares

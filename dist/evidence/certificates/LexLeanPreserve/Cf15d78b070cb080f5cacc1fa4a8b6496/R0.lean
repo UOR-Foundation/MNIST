@@ -10,6 +10,7 @@ import Mnist.Conv1Image0
 import Mnist.Conv2Image0A
 import Mnist.Conv2Image0B
 import Mnist.Core
+import Mnist.Facts
 import Mnist.Image0
 import Mnist.Model
 import Mnist.Network
@@ -21,7 +22,7 @@ set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 set_option synthInstance.maxHeartbeats 0
 set_option linter.unusedVariables false
-namespace LexLeanPreserve.C04d46d7fd36e23950c7b567c8b89ffaa.R0
+namespace LexLeanPreserve.Cf15d78b070cb080f5cacc1fa4a8b6496.R0
 
 def __prog : _root_.LexLeanTarget.TargetSyntax.Program :=
   { adts := [], functions := [
@@ -833,4 +834,4 @@ def denote (b : ByteArray) : _root_.LexLeanPreservation.Obs :=
 theorem root (b : ByteArray) : _root_.LexLeanPreservation.RunConv __prog 0 [(_root_.LexLeanTarget.TargetSyntax.Value.bytes b)] (_root_.LexLeanPreservation.Rel (__fits_0 b) ((_root_.LexLeanPreservation.encExcept (_root_.LexLeanPreservation.encPair _root_.LexLeanTarget.TargetSyntax.Value.bool _root_.LexLeanTarget.TargetSyntax.Value.bool) _root_.LexLeanTarget.TargetSyntax.Value.nat) (Mnist.Model.classify b))) :=
   _root_.LexLeanPreservation.run_of_funRel (__rel_0 b)
 
-end LexLeanPreserve.C04d46d7fd36e23950c7b567c8b89ffaa.R0
+end LexLeanPreserve.Cf15d78b070cb080f5cacc1fa4a8b6496.R0
