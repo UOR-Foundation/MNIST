@@ -10,10 +10,10 @@ Feature: model
     Then lexlean lock --check, lexlean fmt --check --all and lexlean check --all each exit successfully and eleven modules are checked
 
   @MN-02 @build
-  Scenario: The root Mnist.Model.classify, the model applied under its precondition check, is production-eligible for the rust-std target and admits exactly the allocation and overflow effects, so its runtime closure contains no recursion.
-    Given the committed model
+  Scenario: The root Mnist.Model.classify, the model applied under its precondition check, is production-eligible for the rust-std target and admits exactly the allocation and overflow effects; its source has no recursion, but the package renders each list fold as a function that calls itself (LexLean #105), so its stack depth is bounded by the list lengths its 784-byte precondition fixes.
+    Given the committed model and the committed bundle's package
     When the suite exercises MN-02
-    Then lexlean build writes an eligibility record for Mnist.Model.classify whose declared effects are exactly allocation and overflow and whose target is rust-std
+    Then lexlean build writes an eligibility record for Mnist.Model.classify whose declared effects are exactly allocation and overflow and whose target is rust-std, and the package's generated functions include ones that call themselves
 
   @MN-03 @build
   Scenario: The committed bundle's result and the committed production request name the source and semantic identities of the current model, so the attestation, certificates and package the bundle carries belong to the committed source.

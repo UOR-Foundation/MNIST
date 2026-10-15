@@ -38,8 +38,10 @@ Requantization is exact integer arithmetic,
 `clamp((acc + bias) · M + 2³¹ + Z · 2³² quot 2³², 0, 255)` with
 `M = round(s_in · s_w / s_out · 2³²)` per channel, the multipliers artifacts
 derived from the model's scales. Every input-sized loop is a `list_fold`;
-there is no indexing of the image and no recursion, and the root admits
-exactly the `allocation` and `overflow` effects.
+the source has no indexing of the image and no recursion, and the root admits
+exactly the `allocation` and `overflow` effects. The package renders each fold
+as a function that calls itself (LexLean #105), so its stack depth is bounded
+by the list lengths the 784-byte precondition fixes rather than absent (`MN-02`).
 
 ## What is established, and what is measured
 

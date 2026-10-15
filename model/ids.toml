@@ -27,7 +27,7 @@ statement = "The MNIST model under src/Mnist is accepted by the locked LexLean c
 id = "MN-02"
 level = "build"
 suite = "model"
-statement = "The root Mnist.Model.classify, the model applied under its precondition check, is production-eligible for the rust-std target and admits exactly the allocation and overflow effects, so its runtime closure contains no recursion."
+statement = "The root Mnist.Model.classify, the model applied under its precondition check, is production-eligible for the rust-std target and admits exactly the allocation and overflow effects; its source has no recursion, but the package renders each list fold as a function that calls itself (LexLean #105), so its stack depth is bounded by the list lengths its 784-byte precondition fixes."
 
 [[id]]
 id = "MN-03"

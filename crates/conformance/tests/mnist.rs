@@ -109,6 +109,57 @@ fn conformance_mn_02() {
         text.contains("\"status\":\"eligible\",\"target\":\"rust-std\""),
         "classify must be eligible for rust-std: {record:?}"
     );
+    // The statement says the package's folds call themselves (LexLean #105). When LexLean renders
+    // them as loops this assertion fails, and that failure is the signal to restore the stronger
+    // statement that the runtime closure contains no recursion.
+    let lib = std::fs::read_to_string(
+        root.join(BUNDLE)
+            .join("packages/rust-std")
+            .join(PACKAGE)
+            .join("src/lib.rs"),
+    )
+    .expect("the committed package");
+    let calling_themselves = self_calling_functions(&lib);
+    assert!(
+        !calling_themselves.is_empty(),
+        "no generated function of the package calls itself: restore MN-02's claim of no recursion"
+    );
+}
+
+/// The generated functions (`pub fn f<N>(`, each starting a line) whose body calls the function
+/// itself. A body runs to the next line that starts another top-level item.
+fn self_calling_functions(lib: &str) -> Vec<String> {
+    let starts: Vec<(usize, &str)> = lib
+        .match_indices("\npub fn f")
+        .filter_map(|(at, _)| {
+            let rest = &lib[at + "\npub fn ".len()..];
+            let name_len = 1 + rest[1..].chars().take_while(char::is_ascii_digit).count();
+            (name_len > 1 && rest[name_len..].starts_with('(')).then(|| (at, &rest[..name_len]))
+        })
+        .collect();
+    let mut found = Vec::new();
+    for (index, (at, name)) in starts.iter().enumerate() {
+        let header_end = at + "\npub fn ".len() + name.len() + 1;
+        let end = lib[header_end..]
+            .find("\npub ")
+            .or_else(|| lib[header_end..].find("\nfn "))
+            .map_or(lib.len(), |offset| header_end + offset);
+        let end = starts
+            .get(index + 1)
+            .map_or(end, |(next, _)| end.min(*next));
+        let body = &lib[header_end..end];
+        let call = format!("{name}(");
+        let calls_itself = body.match_indices(&call).any(|(offset, _)| {
+            body[..offset]
+                .chars()
+                .next_back()
+                .is_none_or(|before| !before.is_ascii_alphanumeric() && before != '_')
+        });
+        if calls_itself {
+            found.push((*name).to_string());
+        }
+    }
+    found
 }
 
 #[test]
