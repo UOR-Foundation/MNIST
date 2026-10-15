@@ -22,12 +22,13 @@ model does not sanction.
 
 | ID | Level | Statement |
 | --- | --- | --- |
-| `MN-01` | `build` | The MNIST model under src/Mnist is accepted by the locked LexLean compiler: the lock is current, every module is canonical, and all eleven modules link, artifacts, contract, realization, evidence and model included. |
+| `MN-01` | `build` | The MNIST model under src/Mnist is accepted by the locked LexLean compiler: the lock is current, every module is canonical, and all twelve modules link, artifacts, contract, realization, evidence, model and the model's facts included. |
 | `MN-02` | `build` | The root Mnist.Model.classify, the model applied under its precondition check, is production-eligible for the rust-std target and admits exactly the allocation and overflow effects; its source has no recursion, but the package renders each list fold as a function that calls itself (LexLean #105), so its stack depth is bounded by the list lengths its 784-byte precondition fixes. |
 | `MN-03` | `build` | The committed bundle's result and the committed production request name the source and semantic identities of the current model, so the attestation, certificates and package the bundle carries belong to the committed source. |
 | `MN-04` | `build` | The committed bundle replays offline through lexlean production verify-artifact with status bindings-verified, exporting Mnist.Model.classify with certification kernel-checked: certificates A, B and E of the root were compiled, replayed and axiom-audited by the pinned Lean. |
 | `MN-05` | `build` | The committed package, built from the bundle and run over the 10,000 MNIST test images, returns the class onnxruntime 1.29.0 returns for mnist-12-int8.onnx on every image, misclassifies exactly 108 of them, and refuses an input that is not 784 bytes. |
 | `MN-06` | `build` | Every parameter artifact under artifacts/ is configured in lexlean.toml under its SHA-256 and recorded in model/authorities.toml, so the weights the model decodes are the bytes the authority row names. |
+| `MN-07` | `build` | Mnist.Facts proves by decide over the parameter artifacts that every requantization multiplier of conv1, conv2 and fc is positive; that the ten fc multipliers are distinct; that the least bias plus 255 times a channel's negative taps and the greatest bias plus 255 times its positive taps are -205015 and 210788 for conv1 and -1477999 and 878711 for conv2; that pairing each channel's taps in stored order, a zero added to an odd count, leaves 28 of 104 conv1 pairs and 113 of 1600 conv2 pairs able to saturate an int16 sum of u8-by-s8 products; and that pairing each channel's smallest tap with its largest leaves none. |
 
 ## Cited authorities
 

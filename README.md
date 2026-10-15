@@ -24,6 +24,7 @@ int32 biases, about 6,000 parameters.
 | `Network` | conv1 (1→8), pool, conv2 (8→16), pool, flatten, the ten output codes, `classifyRows : list (list int) → nat` |
 | `Model` | the product boundary: a `bytes` image, the contract `ImageClassifier`, the realization `MnistNet`, the evidence, the model `MnistModel`, and the production root `classify` |
 | `Image0`, `Conv1Image0`, `Conv2Image0A/B`, `Scenarios` | the kernel-checked forward pass on test image 0 and the unit scenarios |
+| `Facts` | the model's facts over its parameter values (`MN-07`): positive requantization multipliers, distinct fc multipliers, the accumulator bounds, int16 pair saturation in stored order, and a pairing that never saturates |
 
 The contract: precondition `IsImage b` (784 bytes), postcondition
 `IsDigit y` (`y ≤ 9`), each with an executable validator and its soundness
@@ -57,6 +58,15 @@ Kernel-checked by `lexlean verify` (the attestation the bundle carries):
   `codes image0` and `classifyRows image0 = 7` closed by rewriting with them;
 - the validators' soundness, and `IsImage b → IsDigit b (MnistNet b)` for
   every `b`;
+- the model's facts over its parameter values (`Mnist.Facts`, `MN-07`): all 34
+  requantization multipliers are positive and the ten fc multipliers distinct;
+  bias plus 255 times a channel's negative and positive taps spans
+  [−205015, 210788] for conv1 and [−1477999, 878711] for conv2; taken in stored
+  order, 28 of 104 conv1 and 113 of 1600 conv2 tap pairs can saturate an int16
+  sum of u8-by-s8 products, and pairing each channel's smallest tap with its
+  largest leaves none. That these bounds hold for every input, and that the
+  positive multipliers make requantization monotone, are statements over all
+  inputs not yet proved (UOR-Foundation/LexLean#117, #6);
 - certificates A, B and E of the root: source to calculus, calculus to the
   rendered crate, and their composition.
 
