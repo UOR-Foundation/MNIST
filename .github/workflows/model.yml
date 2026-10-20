@@ -25,11 +25,11 @@ jobs:
     timeout-minutes: 180
     steps:
       - name: Check out the exact event revision
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - name: Check out LexLean at the pinned commit
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: ${{ env.LEXLEAN_REPOSITORY }}
           ref: ${{ env.LEXLEAN_COMMIT }}
@@ -52,7 +52,7 @@ jobs:
           set -euo pipefail
           echo "::notice::toolchains: $(ls "$HOME/.elan/toolchains" | tr '\n' ' '); lean: $(lean --version); lake: $(lake --version | head -n 1); bin: $(ls "$HOME/.elan/toolchains/$(ls "$HOME/.elan/toolchains" | head -n 1)/bin" | tr '\n' ' ')"
       - name: Cache the LexLean build
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .lexlean-src/target/release/lexlean
           key: lexlean-${{ env.LEXLEAN_COMMIT }}-${{ runner.os }}
